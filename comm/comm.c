@@ -107,7 +107,8 @@ short	sendLogs(unsigned short num_data, signed char* ref, signed char* mes)
 		buf_mes[num_buffered_data + i]	= mes[i];
 	}
 	num_buffered_data	+= i;
-	if (i2cIsEmptyTransmissionStorage() == false) { return -1; }
+//	if (i2cIsEmptyTransmissionStorage() == false) { return -1; }
+	if (i2cGetStorageDataNum(0) != 0) {return -1;}
 
 	/* pack */
 	initPackedMsgpack(&pk);
