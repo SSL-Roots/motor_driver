@@ -1,0 +1,18 @@
+[submodule "lib/assert"]
+	path = lib/assert
+	url = git@bitbucket.org:msl_elec/assert.git
+[submodule "lib/fifo"]
+	path = lib/fifo
+	url = git@bitbucket.org:msl_elec/fifo.git
+[submodule "lib/xprintf"]
+	path = lib/xprintf
+	url = git@bitbucket.org:msl_elec/xprintf.git
+[submodule "lib/uart_dsPIC33F"]
+	path = lib/uart_dsPIC33F
+	url = https://tilt_silvie@bitbucket.org/msl_elec/uart_dspic33f.git
+[submodule "lib/i2c"]
+	path = lib/i2c
+	url = git@bitbucket.org:msl_elec/i2cslavelibrary.git
+[submodule "lib/msgpack"]
+	path = lib/msgpack
+	url = git@bitbucket.org:tilt_silvie/msgpack-embedded-c.git
