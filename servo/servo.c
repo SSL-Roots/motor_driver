@@ -169,32 +169,35 @@ void _ISR	_T1Interrupt( void )
 		setLogger( (signed char)(G_reference_millirad_per_sec / 1000 / 6), (signed char)(measured_speed / 1000 / 6) );
 	}
 
+    current_log[i]	= abs(getCurrentMotorUnit());
+	i++;
 	/* ロギング */
 	if( i>=16 ){
+        average_current = 0;
 		i	= 0;
+        for( j=0; j<16; j++ ){
+		average_current	+= current_log[j];
+        }
+        average_current	/= 16;
 	}
-	current_log[i]	= abs(getCurrentMotorUnit());
-	i++;
+	
 
 	/* 平均電流取得 */
-//	for( j=0; j<16; j++ ){
-//		average_current	+= current_log[j];
-//	}
-//	average_current	/= 16;
-//
-//	if( average_current > LIMIT_CURRENT_ ){
-//		is_current_overed	= true;
-//	}else if( abs(G_reference_millirad_per_sec) < abs(getSpeedMotorUnit())){
-//		is_current_overed	= false;
-//	}
-//
-//	if( is_current_overed == true ){
-//		if( G_reference_millirad_per_sec > 0 ){
-//			driveCurrentMotorUnit( LIMIT_CURRENT_ );
-//		}else{
-//			driveCurrentMotorUnit( -LIMIT_CURRENT_ );
-//		}
-//	}else{
+	
+
+	if( average_current > LIMIT_CURRENT_ ){
+		is_current_overed	= true;
+	}else if( abs(G_reference_millirad_per_sec) < abs(getSpeedMotorUnit())){
+		is_current_overed	= false;
+	}
+
+	if( is_current_overed == true ){
+		if( G_reference_millirad_per_sec > 0 ){
+			driveCurrentMotorUnit( LIMIT_CURRENT_ );
+		}else{
+			driveCurrentMotorUnit( -LIMIT_CURRENT_ );
+		}
+	}else{
 		if( G_is_servo_enabled == 1 ){
 			output	= getVoltageMotorUnit();
 			output	+= pid( G_reference_millirad_per_sec, measured_speed );
@@ -213,7 +216,7 @@ void _ISR	_T1Interrupt( void )
 		}else{
 			/*driveMotorUnit( G_reference_deg_per_sec );*/
 		}
-	//}
+	}
 
 
 }

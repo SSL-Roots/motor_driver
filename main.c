@@ -41,7 +41,7 @@ int main(void)
 	xdev_out( putcUart );
 
 	Order	order;
-	signed long	i;
+//	signed long	i;
 
 	while( 1 ){
 		order	= fetchOrder();
