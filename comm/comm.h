@@ -17,7 +17,7 @@
 #define	COMM_MODE_I2C
 
 #define	UART_BAUDRATE	57600
-#define	I2C_ID	20
+#define	I2C_ID	40
 /****************************************/
 
 /****************************************/

@@ -30,6 +30,8 @@ MotorStat	G_motor_stat;
 extern void	initializeMotorUnit( void )
 {
 	initializeMotor();
+    initializeEncorder();
+    initializeTimer();
 }
 /****************************************/
 
