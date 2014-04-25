@@ -147,7 +147,7 @@ void _ISR	_T1Interrupt( void )
 	const unsigned int	NUM_OF_LOOP_LOGGING_ = 4;	 /*2ms * 4 = 8msごとにログを取る*/ 
 	static signed long	output;
 	static unsigned int	count_logging;
-	signed long	mesured_speed = 0;
+	signed long	measured_speed = 0;
 	signed int	output_limited;
 
 	_T1IF	= 0;
@@ -161,26 +161,29 @@ void _ISR	_T1Interrupt( void )
 
 
 	/*ログ動作*/
-	mesured_speed	= getSpeedMotorUnit();
+	measured_speed	= getSpeedMotorUnit();
 	if( count_logging < NUM_OF_LOOP_LOGGING_ ){
 		count_logging ++;
 	}else{
 		count_logging	= 0;
-		setLogger( (signed char)(G_reference_millirad_per_sec / 1000 / 6), (signed char)(mesured_speed / 1000 / 6) );
+		setLogger( (signed char)(G_reference_millirad_per_sec / 1000 / 6), (signed char)(measured_speed / 1000 / 6) );
 	}
 
+    current_log[i]	= abs(getCurrentMotorUnit());
+	i++;
 	/* ロギング */
 	if( i>=16 ){
+        average_current = 0;
 		i	= 0;
+        for( j=0; j<16; j++ ){
+		average_current	+= current_log[j];
+        }
+        average_current	/= 16;
 	}
-	current_log[i]	= abs(getCurrentMotorUnit());
-	i++;
+	
 
 	/* 平均電流取得 */
-	for( j=0; j<16; j++ ){
-		average_current	+= current_log[j];
-	}
-	average_current	/= 16;
+	
 
 	if( average_current > LIMIT_CURRENT_ ){
 		is_current_overed	= true;
@@ -197,8 +200,8 @@ void _ISR	_T1Interrupt( void )
 	}else{
 		if( G_is_servo_enabled == 1 ){
 			output	= getVoltageMotorUnit();
-			output	+= pid( G_reference_millirad_per_sec, mesured_speed );
-
+			output	+= pid( G_reference_millirad_per_sec, measured_speed );
+            //output = output * 10000;
 			if( output > 32767 ){
 				output_limited	= 32767;
 				output			= 32767;
