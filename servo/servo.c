@@ -154,7 +154,7 @@ void _ISR	_T1Interrupt( void )
 
 	/*  電流リミッター */
 	const short	LIMIT_CURRENT_ = 2000;
-	static signed short	current_log[16];
+	static signed short	current_log[32];
 	static bool	is_current_overed = false;
 	static short	i;
 	signed long	average_current = 0,j;
@@ -172,13 +172,13 @@ void _ISR	_T1Interrupt( void )
     current_log[i]	= abs(getCurrentMotorUnit());
 	i++;
 	/* ロギング */
-	if( i>=16 ){
+	if( i>=32 ){
         average_current = 0;
 		i	= 0;
-        for( j=0; j<16; j++ ){
+        for( j=0; j<32; j++ ){
 		average_current	+= current_log[j];
         }
-        average_current	/= 16;
+        average_current	/= 32;
 	}
 	
 
