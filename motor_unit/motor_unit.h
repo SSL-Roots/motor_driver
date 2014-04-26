@@ -17,8 +17,8 @@
 
 /****************************************/
 typedef struct MotorStat {
-	signed short	current_milliamp;
-	signed short	voltage_millivolt;
+	signed long	current_milliamp;
+	signed long	voltage_millivolt;
 	signed long	millirad;			/* Position*/ 
 	signed long	millirad_per_sec;	/* Speed */ 
 	signed long	millirad_per_sec2;	/* Acceleration */
@@ -30,8 +30,8 @@ typedef struct MotorStat {
 extern void	initializeMotorUnit( void );
 extern signed long	driveMotorUnit( signed int motor_millivolt );
 extern signed long	driveCurrentMotorUnit( signed short current_milliamp );
-extern signed short	getVoltageMotorUnit( void );
-extern signed short	getCurrentMotorUnit( void );
+extern signed long	getVoltageMotorUnit( void );
+extern signed long	getCurrentMotorUnit( void );
 extern signed long	getPositionMotorUnit( void );
 extern signed long	getSpeedMotorUnit( void );
 /****************************************/

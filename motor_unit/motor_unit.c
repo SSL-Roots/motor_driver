@@ -21,7 +21,7 @@
 
 /****************************************/
 static void	initializeTimer( void );
-static signed short	calculateCurrent( signed short voltage_millivolt, signed long deg_per_sec );
+static signed long	calculateCurrent( signed long voltage_millivolt, signed long deg_per_sec );
 MotorStat	G_motor_stat;
 /****************************************/
 
@@ -64,13 +64,13 @@ extern signed long	driveCurrentMotorUnit( signed short current_milliamp )
 
 
 /****************************************/
-extern signed short	getVoltageMotorUnit( void )
+extern signed long	getVoltageMotorUnit( void )
 {
 	return	G_motor_stat.voltage_millivolt;
 }
 
 
-extern signed short	getCurrentMotorUnit( void )
+extern signed long	getCurrentMotorUnit( void )
 {
 	return	G_motor_stat.current_milliamp;
 }
@@ -86,7 +86,7 @@ extern signed long	getSpeedMotorUnit( void )
 }
 
 
-static signed short	calculateCurrent( signed short voltage_millivolt, signed long millirad_per_sec )
+static signed long	calculateCurrent( signed long voltage_millivolt, signed long millirad_per_sec )
 {
 	return	(voltage_millivolt - millirad_per_sec*RAD_PER_SEC_TO_RND_PER_MIN/KN)*1000/MOTOR_R_MILLIOHM;
 }

@@ -154,7 +154,7 @@ void _ISR	_T1Interrupt( void )
 
 	/*  電流リミッター */
 	const short	LIMIT_CURRENT_ = 2000;
-	static signed short	current_log[32];
+	static signed long	current_log[32];
 	static bool	is_current_overed = false;
 	static short	i;
 	signed long	average_current = 0,j;
@@ -169,35 +169,37 @@ void _ISR	_T1Interrupt( void )
 		setLogger( (signed char)(G_reference_millirad_per_sec / 1000 / 6), (signed char)(measured_speed / 1000 / 6) );
 	}
 
-    current_log[i]	= abs(getCurrentMotorUnit());
-	i++;
-	/* ロギング */
-	if( i>=32 ){
-        average_current = 0;
-		i	= 0;
-        for( j=0; j<32; j++ ){
-		average_current	+= current_log[j];
-        }
-        average_current	/= 32;
-	}
-	
+//    current_log[i]	= abs(getCurrentMotorUnit());
+//	i++;
+//	/* ロギング */
+//	if( i>=32 ){
+//		i	= 0;
+//	}
+//    average_current = 0;
+//        for( j=0; j<32; j++ ){
+//		average_current	+= current_log[j];
+//    }
+//    average_current = average_current >>  5;
+//
 
-	/* 平均電流取得 */
-	
-
-	if( average_current > LIMIT_CURRENT_ ){
-		is_current_overed	= true;
-	}else if( abs(G_reference_millirad_per_sec) < abs(getSpeedMotorUnit())){
-		is_current_overed	= false;
-	}
-
-	if( is_current_overed == true ){
-		if( G_reference_millirad_per_sec > 0 ){
-			driveCurrentMotorUnit( LIMIT_CURRENT_ );
-		}else{
-			driveCurrentMotorUnit( -LIMIT_CURRENT_ );
-		}
-	}else{
+//	/* 平均電流取得 */
+//
+//
+//	if( average_current > LIMIT_CURRENT_ ){
+//		is_current_overed	= true;
+//
+//	}else if( abs(G_reference_millirad_per_sec) < abs(getSpeedMotorUnit())){
+//		is_current_overed	= false;
+//	}
+//
+//
+//	if( is_current_overed == true ){
+//		if( G_reference_millirad_per_sec > 0 ){
+//			driveCurrentMotorUnit( LIMIT_CURRENT_ );
+//		}else{
+//			driveCurrentMotorUnit( -LIMIT_CURRENT_ );
+//		}
+//	}else{
 		if( G_is_servo_enabled == 1 ){
 			output	= getVoltageMotorUnit();
 			output	+= pid( G_reference_millirad_per_sec, measured_speed );
@@ -216,7 +218,7 @@ void _ISR	_T1Interrupt( void )
 		}else{
 			/*driveMotorUnit( G_reference_deg_per_sec );*/
 		}
-	}
+	//}
 
 
 }
