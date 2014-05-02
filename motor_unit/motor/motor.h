@@ -23,6 +23,7 @@
 /****************************************/
 void	initializeMotor( void );
 unsigned char	driveMotor( signed int motor_millivolt );
+extern unsigned long getDutymilliVolt(void);
 /****************************************/
 
 /**************************************/

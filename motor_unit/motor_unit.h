@@ -22,6 +22,9 @@ typedef struct MotorStat {
 	signed long	millirad;			/* Position*/ 
 	signed long	millirad_per_sec;	/* Speed */ 
 	signed long	millirad_per_sec2;	/* Acceleration */
+        unsigned long   duty_miliivoltage;
+        unsigned long   ab_mesured_speed;
+        char            shutdown_flag;
 }MotorStat;
 /****************************************/
 
@@ -34,6 +37,8 @@ extern signed long	getVoltageMotorUnit( void );
 extern signed long	getCurrentMotorUnit( void );
 extern signed long	getPositionMotorUnit( void );
 extern signed long	getSpeedMotorUnit( void );
+extern char             shutdownMotorDriver(void);
+extern unsigned long    shutdownCurrentMotorUnit(void);
 /****************************************/
 
 #endif	/*_MOTOR_UNIT_H_*/

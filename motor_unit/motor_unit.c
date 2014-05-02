@@ -60,6 +60,23 @@ extern signed long	driveCurrentMotorUnit( signed short current_milliamp )
 
 	return	0;
 }
+
+
+extern unsigned long shutdownCurrentMotorUnit()
+{
+    unsigned long mesuredV_per_targetV;
+
+    mesuredV_per_targetV = (G_motor_stat.ab_mesured_speed*RAD_PER_SEC_TO_RND_PER_MIN*100/KN)/G_motor_stat.duty_miliivoltage;
+
+
+    if(mesuredV_per_targetV <= 30 && G_motor_stat.duty_miliivoltage > 10000 )
+    {
+        G_motor_stat.shutdown_flag = 1;
+        return 1;
+
+    }
+    return 0;
+}
 /****************************************/
 
 
@@ -132,6 +149,14 @@ void _ISR	_T2Interrupt( void )
 
 	G_motor_stat.current_milliamp	= calculateCurrent( G_motor_stat.voltage_millivolt, G_motor_stat.millirad_per_sec );
 
-
+    G_motor_stat.duty_miliivoltage = getDutymilliVolt();
+    if(G_motor_stat.millirad_per_sec > 0)
+    {
+        G_motor_stat.ab_mesured_speed  = G_motor_stat.millirad_per_sec;
+    }
+    else if(G_motor_stat.millirad_per_sec <= 0)
+    {
+        G_motor_stat.ab_mesured_speed  = -G_motor_stat.millirad_per_sec;
+    }
 }
 /****************************************/

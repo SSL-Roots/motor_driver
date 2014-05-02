@@ -22,6 +22,7 @@
 /**************************************/
 /*グローバル変数*/
 static unsigned char	G_direction_rotation = BRAKE;
+unsigned int     G_duty;
 /**************************************/
 
 
@@ -74,7 +75,8 @@ unsigned char	driveMotor( signed int motor_millivolt )
 
 	G_direction_rotation	= getDirection( motor_millivolt );
 	duty_int	= getDuty( motor_millivolt, supply_voltage );
-	
+	G_duty = duty_int;
+
 	setDutyBridge( duty_int );
 	exciteWinding( G_direction_rotation );
 
@@ -103,6 +105,17 @@ static unsigned int	getDuty( signed int target_voltage, signed int supply_voltag
 	}
 	
 	return	(unsigned int)(target_voltage_l * 0xFFFF / supply_voltage);
+}
+
+
+extern unsigned long getDutymilliVolt( void )
+{
+    unsigned long target_millivolt = 244;
+
+    target_millivolt *= (unsigned long)G_duty;
+
+
+	return	target_millivolt >> 10;
 }
 
 
