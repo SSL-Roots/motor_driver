@@ -112,7 +112,7 @@ static signed int pid( signed long reference_input, signed long mesured_output )
 	control_output[1]	= control_output[0];
 	control_output[0]	= control_output[1] + delta_control_output;
 
-	control_output_minimize	= control_output[0] >> 10;
+	control_output_minimize	= control_output[0] / 1024;
 
 	if( control_output_minimize > SHRT_MAX ){
 		return	SHRT_MAX;
