@@ -69,7 +69,7 @@ extern unsigned long shutdownCurrentMotorUnit()
     mesuredV_per_targetV = (G_motor_stat.ab_mesured_speed*RAD_PER_SEC_TO_RND_PER_MIN*100/KN)/G_motor_stat.duty_miliivoltage;
 
 
-    if(mesuredV_per_targetV <= 30 && G_motor_stat.duty_miliivoltage > 10000 )
+    if(mesuredV_per_targetV <= 2 && G_motor_stat.duty_miliivoltage > 15600 )
     {
         G_motor_stat.shutdown_flag = 1;
         return 1;
@@ -114,10 +114,10 @@ static void	initializeTimer( void )
 {
 	unsigned int	config;
 
-	config	=	T2_ON & T2_IDLE_STOP & T2_GATE_OFF & T2_PS_1_8 & 
+	config	=	T2_ON & T2_IDLE_STOP & T2_GATE_OFF & T2_PS_1_64 &
 				T2_32BIT_MODE_OFF & T2_SOURCE_INT;
 
-	OpenTimer2( config, 10000 );
+	OpenTimer2( config, 12500 );
 	ConfigIntTimer2( T2_INT_PRIOR_3 & T2_INT_ON );
 }
 

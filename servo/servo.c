@@ -29,7 +29,7 @@ static signed int pid( signed long reference_input, signed long mesured_output )
 /*******************************************/
 static signed long	G_reference_millirad_per_sec;
 static int	G_is_servo_enabled = 0;
-static long	G_gain_kp = 1, G_gain_ki = 0, G_gain_kd = 0;
+static long	G_gain_kp = 20, G_gain_ki = 1, G_gain_kd = 0;//20:1:0
 /*******************************************/
 
 
@@ -46,10 +46,10 @@ static void	initializeTimer( void )
 {
 	unsigned int	config;
 
-	config	=	T1_ON & T1_IDLE_STOP & T1_GATE_OFF & T1_PS_1_8 & 
+	config	=	T1_ON & T1_IDLE_STOP & T1_GATE_OFF & T1_PS_1_64 &
 				T1_SYNC_EXT_OFF & T1_SOURCE_INT;
 
-	OpenTimer1( config, 10000 );
+	OpenTimer1( config, 12500 );
 	ConfigIntTimer1( T1_INT_PRIOR_3 & T1_INT_ON );
 }
 /*******************************************/
@@ -147,6 +147,7 @@ void _ISR	_T1Interrupt( void )
 	const unsigned int	NUM_OF_LOOP_LOGGING_ = 4;	 /*2ms * 4 = 8msごとにログを取る*/ 
 	static signed long	output;
 	static unsigned int	count_logging;
+    static unsigned long count_shutdown;
     signed int	output_limited;
 	signed long	measured_speed  = 0;
     signed int	shutdown_output = 0;
@@ -213,6 +214,7 @@ void _ISR	_T1Interrupt( void )
             _T3IE = 0;
             _T2IE = 0;
             _T1IE = 0;
+            _I2CEN = 0;
             _SI2C1IE = 0;
             _MI2C1IE = 0;
         }
@@ -231,6 +233,8 @@ void _ISR	_T1Interrupt( void )
 			}else{
 				output_limited	= output;
 			}
+
+            if(G_reference_millirad_per_sec == 0)output_limited = 0;
 
 			driveMotorUnit( output_limited );
 		}else{
