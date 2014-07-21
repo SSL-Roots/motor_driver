@@ -147,7 +147,6 @@ void _ISR	_T1Interrupt( void )
 	const unsigned int	NUM_OF_LOOP_LOGGING_ = 4;	 /*2ms * 4 = 8msごとにログを取る*/ 
 	static signed long	output;
 	static unsigned int	count_logging;
-    static unsigned long count_shutdown;
     signed int	output_limited;
 	signed long	measured_speed  = 0;
     signed int	shutdown_output = 0;
@@ -210,14 +209,7 @@ void _ISR	_T1Interrupt( void )
     {
         shutdown_output = 0;
         driveMotorUnit( shutdown_output );
-        while(1){
-            _T3IE = 0;
-            _T2IE = 0;
-            _T1IE = 0;
-            _I2CEN = 0;
-            _SI2C1IE = 0;
-            _MI2C1IE = 0;
-        }
+        
     }
     else{
 		if( G_is_servo_enabled == 1 ){

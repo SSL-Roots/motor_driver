@@ -65,11 +65,23 @@ extern signed long	driveCurrentMotorUnit( signed short current_milliamp )
 extern unsigned long shutdownCurrentMotorUnit()
 {
     unsigned long mesuredV_per_targetV;
+    static unsigned int  count_shutdown;
 
     mesuredV_per_targetV = (G_motor_stat.ab_mesured_speed*RAD_PER_SEC_TO_RND_PER_MIN*100/KN)/G_motor_stat.duty_miliivoltage;
 
+    if(G_motor_stat.shutdown_flag == 1)
+    {
+        count_shutdown++;
+        if(count_shutdown >= 25)
+        {
+            count_shutdown = 0;
+            G_motor_stat.shutdown_flag = 0;
+            return 0;
+        }
+        return 1;
+    }
 
-    if(mesuredV_per_targetV <= 2 && G_motor_stat.duty_miliivoltage > 15600 )
+    if(mesuredV_per_targetV <= 2 && G_motor_stat.duty_miliivoltage > 15600)
     {
         G_motor_stat.shutdown_flag = 1;
         return 1;
