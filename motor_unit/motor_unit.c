@@ -143,9 +143,9 @@ void _ISR	_T2Interrupt( void )
 	signed long		old_millirad_per_sec;
 	signed short	pulse_per_sample;
 
-	_T2IF	= 0;
+	_T2IF= 0;
 
-	pulse_per_sample	= readCountEncorder();
+	pulse_per_sample = readCountEncorder();
 	setCountEncorder(0);
 
 	/* 位置 */

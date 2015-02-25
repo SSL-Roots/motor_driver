@@ -58,7 +58,7 @@ static void	initializeTimer( void )
 /*******************************************/
 extern signed long	setReferenceServo( signed short rad_per_sec)
 {
-	G_reference_millirad_per_sec	= (long)rad_per_sec * 1000;
+	G_reference_millirad_per_sec	= (long)rad_per_sec * 100;
 
 	return	0;
 }
@@ -100,6 +100,14 @@ static signed int pid( signed long reference_input, signed long mesured_output )
 	signed long long delta_control_output;
 	signed long long	control_output_minimize;
 
+	/*指令値0時の初期化*/
+	if(reference_input == 0){
+		err[2]	= 0;
+		err[1]	= 0;
+		err[0]	= 0;
+		control_output[1]	= 0;
+		control_output[0]	= 0;
+	}
 	/*偏差履歴を更新*/
 	err[2]	= err[1];
 	err[1]	= err[0];
@@ -142,7 +150,7 @@ extern unsigned short getAllLogs(signed char* buf_ref, signed char* buf_mes)
 /*******************************************/
 
 /*******************************************/
-void _ISR	_T1Interrupt( void )
+void _ISR   _T1Interrupt( void )
 {
 	const unsigned int	NUM_OF_LOOP_LOGGING_ = 4;	 /*2ms * 4 = 8msごとにログを取る*/ 
 	static signed long	output;
@@ -226,7 +234,10 @@ void _ISR	_T1Interrupt( void )
 				output_limited	= output;
 			}
 
-            if(G_reference_millirad_per_sec == 0)output_limited = 0;
+            if(G_reference_millirad_per_sec == 0){
+				output_limited  = 0;
+				output			= 0;
+			}
 
 			driveMotorUnit( output_limited );
 		}else{
