@@ -10,7 +10,7 @@
 
 /****************************************/
 #define	F_SAMPLE	50
-#define	PPS_TO_MRPS	281	/* PulsePerSample to MilradianPerSec */
+#define	PPS_TO_MRPS	218	/* PulsePerSample to MilradianPerSec */
 						/* (6283 * F_SAMPLE) / ENCODER_PPR */ //77
 
 /****************************************/
