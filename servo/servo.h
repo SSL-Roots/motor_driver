@@ -9,11 +9,11 @@
 #define	_SERVO_H_
 
 /*******************************************/
-extern void	initializeServo( void );
-extern signed long	setReferenceServo( signed short rad_per_sec);
-extern void	setGainServo( long kp, long ki, long kd );
-extern void	enableServo( void );
-extern void	disableServo( void );
+extern void initializeServo(void);
+extern signed long  setReferenceServo(signed short rad_per_sec);
+extern void setGainServo(long kp, long ki, long kd);
+extern void enableServo(void);
+extern void disableServo(void);
 /*******************************************/
 extern unsigned short getAllLogs(signed char* buf_ref, signed char* buf_mes);
 /*******************************************/

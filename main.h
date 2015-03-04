@@ -9,7 +9,7 @@
 #ifndef	_MAIN_H_
 #define	_MAIN_H_
 
-#include	"config33f.h"
+#include "config33f.h"
 
 /********************************************************/
 #define	_DEBUG
@@ -17,9 +17,9 @@
 
 
 /********************************************************/
-void	initialize( void );
-void	initializeOsc( void );
-void	initializeIO( void );
+void initialize(void);
+void initializeOsc(void);
+void initializeIO(void);
 /********************************************************/
 
 

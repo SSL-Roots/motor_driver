@@ -9,12 +9,12 @@
 #ifndef	_ENCORDER_H_
 #define	_ENCORDER_H_
 
-#define	ENCODER_PPR	1440//4996
+#define	ENCODER_PPR 1440//4996
 /***************************************/
 
-extern void	initializeEncorder( void );
-extern signed int	readCountEncorder( void );
-extern void	setCountEncorder( signed int count );
+extern void         initializeEncorder(void);
+extern signed int   readCountEncorder(void);
+extern void         setCountEncorder(signed int count);
 
 /***************************************/
 
